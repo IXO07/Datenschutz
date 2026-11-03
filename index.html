@@ -3,134 +3,408 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Datenschutzerklärung – Voxel Vortex</title>
+<title>Datenschutzerklärung – Quadra – 3D Block Puzzle</title>
 <style>
-:root{
-  box-sizing:border-box;
-  padding-top:env(safe-area-inset-top,0px);
-  padding-bottom:env(safe-area-inset-bottom,0px);
-  --bg:#f7f8fb; --text:#1b1f2a; --muted:#566074; --line:#d9dde7; --accent:#2d4bd6;
+:root {
+  --bg-gradient: linear-gradient(135deg, #0b0f19 0%, #111827 50%, #070a12 100%);
+  --panel-bg: rgba(30, 41, 59, 0.7);
+  --panel-border: rgba(255, 255, 255, 0.08);
+  --text-main: #f3f4f6;
+  --text-muted: #9ca3af;
+  --accent: #6366f1;
+  --accent-glow: rgba(99, 102, 241, 0.35);
+  --accent-hover: #818cf8;
+  --card-bg: rgba(15, 23, 42, 0.6);
+  --radius: 16px;
 }
-@media (prefers-color-scheme:dark){
-  :root:not([data-theme="light"]){--bg:#10121c;--text:#e8eaf2;--muted:#9aa3b8;--line:#2a2f42;--accent:#8fa2ff;}
+
+*, *::before, *::after {
+  box-sizing: border-box;
 }
-:root[data-theme="dark"]{--bg:#10121c;--text:#e8eaf2;--muted:#9aa3b8;--line:#2a2f42;--accent:#8fa2ff;}
-html{scroll-padding-top:env(safe-area-inset-top,0px)}
-body{margin:0;background:var(--bg);color:var(--text);font:17px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
-main{max-width:66ch;margin:0 auto;padding:48px 20px 40px}
-h1{font-size:2rem;line-height:1.2;margin:0 0 6px}
-h2{font-size:1.15rem;margin:2.2em 0 .3em}
-p,li{margin:.6em 0}
-ul{padding-left:1.2em}
-a{color:var(--accent)}
-.meta{color:var(--muted);margin:0 0 1.5em}
-footer{max-width:66ch;margin:0 auto;padding:20px 20px 56px;border-top:1px solid var(--line);color:var(--muted);font-size:.9rem}
+
+body {
+  margin: 0;
+  background: var(--bg-gradient);
+  background-attachment: fixed;
+  color: var(--text-main);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+}
+
+/* Header Banner */
+.hero {
+  text-align: center;
+  padding: 65px 20px 45px;
+  background: radial-gradient(circle at top center, rgba(99, 102, 241, 0.15) 0%, transparent 70%);
+  border-bottom: 1px solid var(--panel-border);
+}
+
+.app-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(99, 102, 241, 0.1);
+  border: 1px solid rgba(99, 102, 241, 0.3);
+  color: var(--accent-hover);
+  padding: 6px 16px;
+  border-radius: 30px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  margin-bottom: 16px;
+  box-shadow: 0 0 20px var(--accent-glow);
+}
+
+h1 {
+  font-size: 2.75rem;
+  font-weight: 800;
+  margin: 0 0 12px;
+  background: linear-gradient(135deg, #ffffff 0%, #cbd5e1 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  letter-spacing: -0.5px;
+}
+
+.meta {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  margin: 0;
+}
+
+/* Layout Container */
+.layout-container {
+  max-width: 1200px;
+  margin: 40px auto;
+  padding: 0 20px;
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 40px;
+}
+
+@media (max-width: 900px) {
+  .layout-container {
+    grid-template-columns: 1fr;
+    margin: 20px auto;
+  }
+}
+
+/* Sidebar Navigation */
+.sidebar {
+  position: sticky;
+  top: 40px;
+  height: fit-content;
+  background: var(--panel-bg);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--panel-border);
+  border-radius: var(--radius);
+  padding: 20px;
+  max-height: calc(100vh - 80px);
+  overflow-y: auto;
+}
+
+.sidebar h3 {
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--text-muted);
+  margin: 0 0 12px;
+}
+
+.toc-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.toc-list a {
+  color: var(--text-muted);
+  text-decoration: none;
+  font-size: 0.9rem;
+  padding: 6px 10px;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.toc-list a:hover {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+@media (max-width: 900px) {
+  .sidebar {
+    display: none; /* Auf Mobilgeräten ausblenden für cleanen Look */
+  }
+}
+
+/* Main Content Cards */
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.card {
+  background: var(--panel-bg);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--panel-border);
+  border-radius: var(--radius);
+  padding: 32px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.card:hover {
+  border-color: rgba(99, 102, 241, 0.3);
+}
+
+h2 {
+  font-size: 1.35rem;
+  font-weight: 700;
+  margin: 0 0 16px;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+p {
+  margin: 0 0 16px;
+  color: var(--text-main);
+}
+
+p:last-child {
+  margin-bottom: 0;
+}
+
+ul {
+  margin: 0 0 16px;
+  padding-left: 20px;
+}
+
+li {
+  margin-bottom: 8px;
+  color: var(--text-main);
+}
+
+li:last-child {
+  margin-bottom: 0;
+}
+
+a {
+  color: var(--accent-hover);
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s;
+}
+
+a:hover {
+  color: #fff;
+  text-decoration: underline;
+}
+
+strong {
+  color: #fff;
+}
+
+/* Contact Details Box */
+.contact-box {
+  background: var(--card-bg);
+  border: 1px solid var(--panel-border);
+  border-radius: 12px;
+  padding: 16px 20px;
+  margin-top: 12px;
+}
+
+/* Footer */
+footer {
+  text-align: center;
+  padding: 40px 20px 60px;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  border-top: 1px solid var(--panel-border);
+  margin-top: 60px;
+}
 </style>
 </head>
 <body>
-<main>
-<h1>Datenschutzerklärung</h1>
-<p class="meta">Block Drop · Zuletzt aktualisiert: 30. Oktober 2026</p>
 
-<h2>1. Das Wichtigste in Kürze</h2>
-<p>Dein Datenschutz ist uns wichtig. Deshalb erklären wir hier ausführlich und in einfachen Worten, welche Daten bei der Nutzung der App Voxel Vortex (im Folgenden „die App“) verarbeitet werden, wofür, auf welcher Rechtsgrundlage und welche Rechte du hast.</p>
-<ul>
-<li>Du brauchst weder ein Konto noch eine Anmeldung.</li>
-<li>Spielstände, Rekorde, Einstellungen und Fortschritte bleiben auf deinem Gerät. Wir betreiben keine eigenen Server, auf die sie übertragen werden.</li>
-<li>Die App zeigt Werbung von Google AdMob. Dafür verarbeitet Google bestimmte Daten, aber erst, nachdem du in der App gefragt wurdest.</li>
-<li>Die Zustimmung kannst du jederzeit widerrufen.</li>
-</ul>
+<header class="hero">
+  <div class="app-badge">🎮 Official App Legal Document</div>
+  <h1>Datenschutzerklärung</h1>
+  <p class="meta">Quadra – 3D Block Puzzle &bull; Zuletzt aktualisiert: 30. Oktober 2026</p>
+</header>
 
-<h2>2. Verantwortlicher</h2>
-<p>Verantwortlich für die Datenverarbeitung im Sinne der Datenschutz-Grundverordnung (DSGVO) ist:</p>
-<p>Levi Howe<br>E-Mail: <a href="mailto:levideos.studio@gmail.com">levideos.studio@gmail.com</a></p>
-<p>Bei Fragen zum Datenschutz und für Auskunftsanfragen erreichst du uns unter dieser E-Mail-Adresse.</p>
+<div class="layout-container">
+  
+  <!-- Inhaltsverzeichnis (Desktop Sidebar) -->
+  <aside class="sidebar">
+    <h3>Inhalt</h3>
+    <nav>
+      <ul class="toc-list">
+        <li><a href="#sec-1">1. Überblick</a></li>
+        <li><a href="#sec-2">2. Verantwortlicher</a></li>
+        <li><a href="#sec-3">3. Lokale Daten</a></li>
+        <li><a href="#sec-4">4. Mitteilungen</a></li>
+        <li><a href="#sec-5">5. Ausschluss</a></li>
+        <li><a href="#sec-6">6. Google AdMob</a></li>
+        <li><a href="#sec-7">7. Werbedaten</a></li>
+        <li><a href="#sec-8">8. Rechtliche Basis</a></li>
+        <li><a href="#sec-9">9. Widerruf</a></li>
+        <li><a href="#sec-10">10. Drittländer</a></li>
+        <li><a href="#sec-11">11. Speicherdauer</a></li>
+        <li><a href="#sec-12">12. App Store</a></li>
+        <li><a href="#sec-13">13. Deine Rechte</a></li>
+        <li><a href="#sec-14">14. Beschwerde</a></li>
+        <li><a href="#sec-15">15. Entscheidungen</a></li>
+        <li><a href="#sec-16">16. Jugendschutz</a></li>
+        <li><a href="#sec-17">17. Änderungen</a></li>
+      </ul>
+    </nav>
+  </aside>
 
-<h2>3. Daten, die auf deinem Gerät bleiben</h2>
-<p>Die App speichert folgende Informationen ausschließlich lokal auf deinem Gerät (im App-Speicher von iOS):</p>
-<ul>
-<li>deine laufenden und gespeicherten Spielstände sowie deine Rekorde und Punkte,</li>
-<li>deine Einstellungen, zum Beispiel Sprache, Musik, Soundeffekte, Vibration und Spielhilfen,</li>
-<li>Fortschritte wie Missionen, die tägliche Serie und freigeschaltete Designs,</li>
-<li>ob du die Anleitung bereits abgeschlossen hast.</li>
-</ul>
-<p>Diese Daten werden nicht an uns oder an Dritte gesendet. Wenn du die App löschst, werden sie mit gelöscht. Du kannst sie also jederzeit selbst entfernen.</p>
+  <!-- Hauptinhalt in Karten-Optik -->
+  <main class="content">
 
-<h2>4. Mitteilungen</h2>
-<p>Wenn du Mitteilungen erlaubst, plant die App einzelne Erinnerungen, zum Beispiel wenn deine Serie in Gefahr ist oder du länger nicht gespielt hast. Damit sie zu einer passenden Uhrzeit ankommen, merkt sich die App lokal auf deinem Gerät, zu welchen Tageszeiten du die App öffnest. Diese Uhrzeiten verlassen dein Gerät nicht. Die Mitteilungen werden vom Betriebssystem deines Geräts zugestellt, nicht über einen Server von uns. Du kannst die Erlaubnis jederzeit in den iOS-Einstellungen unter „Mitteilungen“ widerrufen.</p>
+    <section id="sec-1" class="card">
+      <h2>1. Das Wichtigste in Kürze</h2>
+      <p>Dein Datenschutz ist uns wichtig. Deshalb erklären wir hier ausführlich und in einfachen Worten, welche Daten bei der Nutzung der App <strong>Quadra – 3D Block Puzzle</strong> (im Folgenden „die App“) verarbeitet werden, wofür, auf welcher Rechtsgrundlage und welche Rechte du hast.</p>
+      <ul>
+        <li>Du brauchst weder ein Konto noch eine Anmeldung.</li>
+        <li>Spielstände, Rekorde, Einstellungen und Fortschritte bleiben auf deinem Gerät. Wir betreiben keine eigenen Server, auf die sie übertragen werden.</li>
+        <li>Die App zeigt Werbung von Google AdMob. Dafür verarbeitet Google bestimmte Daten, aber erst, nachdem du in der App gefragt wurdest.</li>
+        <li>Die Zustimmung kannst du jederzeit widerrufen.</li>
+      </ul>
+    </section>
 
-<h2>5. Was wir nicht tun</h2>
-<p>Wir setzen in der App keine eigenen Analyse- oder Tracking-Dienste ein, wir erstellen keine Nutzerprofile und wir verkaufen keine Daten. Wir erheben keine Standortdaten, keine Kontakte, keine Fotos und keine Mikrofon- oder Kameradaten.</p>
+    <section id="sec-2" class="card">
+      <h2>2. Verantwortlicher</h2>
+      <p>Verantwortlich für die Datenverarbeitung im Sinne der Datenschutz-Grundverordnung (DSGVO) ist:</p>
+      <div class="contact-box">
+        <strong>Levi Howe</strong><br>
+        E-Mail: <a href="mailto:levideos.studio@gmail.com">levideos.studio@gmail.com</a>
+      </div>
+      <p style="margin-top: 12px;">Bei Fragen zum Datenschutz und für Auskunftsanfragen erreichst du uns direkt unter dieser E-Mail-Adresse.</p>
+    </section>
 
-<h2>6. Werbung mit Google AdMob</h2>
-<p>Um die App kostenlos anbieten zu können, zeigen wir Werbung mit <strong>Google AdMob</strong> an. Anbieter ist Google Ireland Limited, Gordon House, Barrow Street, Dublin 4, Irland (Muttergesellschaft: Google LLC, USA). Es gibt zwei Formen:</p>
-<ul>
-<li><strong>Banner:</strong> ein kleines Werbebanner oben im Spielbildschirm.</li>
-<li><strong>Prämienvideo:</strong> ein Video, das nur erscheint, wenn du es nach einem Game Over selbst auswählst, um dein Spiel fortzusetzen (Rebirth). Die Fortsetzung bekommst du, wenn du das Video bis zum Ende ansiehst.</li>
-</ul>
-<p>Wir zeigen keine erzwungene Vollbildwerbung zwischen den Spielen.</p>
+    <section id="sec-3" class="card">
+      <h2>3. Daten, die auf deinem Gerät bleiben</h2>
+      <p>Die App speichert folgende Informationen ausschließlich lokal auf deinem Gerät (im App-Speicher von iOS):</p>
+      <ul>
+        <li>Deine laufenden und gespeicherten Spielstände sowie deine Rekorde und Punkte,</li>
+        <li>Deine Einstellungen, zum Beispiel Sprache, Musik, Soundeffekte, Vibration und Spielhilfen,</li>
+        <li>Fortschritte wie Missionen, die tägliche Serie und freigeschaltete Designs,</li>
+        <li>Ob du die Anleitung bereits abgeschlossen hast.</li>
+      </ul>
+      <p>Diese Daten werden nicht an uns oder an Dritte gesendet. Wenn du die App löschst, werden sie automatisch entfernt.</p>
+    </section>
 
-<h2>7. Welche Daten Google dabei verarbeitet</h2>
-<p>Wenn die App Werbung lädt und anzeigt, verarbeitet Google als Anbieter des Werbedienstes Daten, die dein Gerät dabei überträgt. Dazu können gehören:</p>
-<ul>
-<li>deine IP-Adresse und der daraus ableitbare ungefähre Standort (zum Beispiel Land oder Region),</li>
-<li>Geräteinformationen wie Gerätetyp, Betriebssystem und -version, Spracheinstellung, Bildschirmgröße und Netzbetreiber,</li>
-<li>Angaben zur App, zum Beispiel Name und Version,</li>
-<li>Informationen zur Werbung: ob sie angezeigt, angetippt oder bis zum Ende angesehen wurde,</li>
-<li>die Werbe-ID deines Geräts (IDFA), wenn du dem Tracking zugestimmt hast,</li>
-<li>Kennungen, die Google zur Betrugsprävention und zur Begrenzung der Anzeigenhäufigkeit nutzt.</li>
-</ul>
-<p>Google verwendet diese Daten, um Werbung auszuliefern, ihre Wirkung zu messen, Betrug und Missbrauch zu verhindern, Abrechnungen zu erstellen und, wenn du zustimmst, Werbung besser auf deine Interessen abzustimmen. Wir selbst erhalten von Google nur zusammengefasste Auswertungen und Einnahmen, aber keine Daten einzelner Personen.</p>
-<p>Für diese Verarbeitung ist Google in der Regel selbst verantwortlich. Weitere Informationen stehen in der <a href="https://policies.google.com/privacy">Datenschutzerklärung von Google</a> und unter <a href="https://policies.google.com/technologies/partner-sites">„Wie Google Daten von Websites und Apps verwendet, die Google-Dienste nutzen“</a>.</p>
+    <section id="sec-4" class="card">
+      <h2>4. Mitteilungen</h2>
+      <p>Wenn du Mitteilungen erlaubst, plant die App einzelne Erinnerungen, zum Beispiel wenn deine Serie in Gefahr ist oder du länger nicht gespielt hast. Damit sie zu einer passenden Uhrzeit ankommen, merkt sich die App lokal auf deinem Gerät, zu welchen Tageszeiten du die App öffnest. Diese Uhrzeiten verlassen dein Gerät nicht. Die Mitteilungen werden vom Betriebssystem deines Geräts zugestellt, nicht über einen Server von uns. Du kannst die Erlaubnis jederzeit in den iOS-Einstellungen unter „Mitteilungen“ widerrufen.</p>
+    </section>
 
-<h2>8. Einwilligung und Rechtsgrundlage</h2>
-<p>Beim ersten Start der App zeigt eine Einwilligungsabfrage, welche Daten für Werbung verarbeitet werden könnten, und fragt dich nach deiner Zustimmung. Zusätzlich fragt iOS, ob die App deine Aktivitäten über Apps anderer Unternehmen hinweg nachverfolgen darf (App-Tracking-Transparenz).</p>
-<p>Rechtsgrundlage für den Zugriff auf Informationen auf deinem Gerät und für die Verarbeitung zu Werbezwecken ist deine <strong>Einwilligung</strong> nach Art. 6 Abs. 1 lit. a DSGVO und § 25 Abs. 1 TDDDG. Die Einwilligung ist freiwillig. Wenn du ablehnst, erhältst du keine personalisierte Werbung. Je nach deiner Auswahl und den Vorgaben von Google zeigt die App dann nur eingeschränkte oder keine Werbung. Das Spiel selbst kannst du in jedem Fall in vollem Umfang nutzen.</p>
+    <section id="sec-5" class="card">
+      <h2>5. Was wir nicht tun</h2>
+      <p>Wir setzen in der App keine eigenen Analyse- oder Tracking-Dienste ein, wir erstellen keine Nutzerprofile und wir verkaufen keine Daten. Wir erheben keine Standortdaten, keine Kontakte, keine Fotos und keine Mikrofon- oder Kameradaten.</p>
+    </section>
 
-<h2>9. Einwilligung widerrufen</h2>
-<p>Du kannst deine Einwilligung jederzeit mit Wirkung für die Zukunft widerrufen. Die bis dahin erfolgte Verarbeitung bleibt rechtmäßig. So geht es:</p>
-<ul>
-<li>Öffne in der App die Einstellungen und tippe auf „Datenschutzoptionen“. Dort kannst du deine Auswahl zur Werbung jederzeit ändern.</li>
-<li>Die Tracking-Erlaubnis änderst du jederzeit in den iOS-Einstellungen unter „Datenschutz &amp; Sicherheit“ &rarr; „Tracking“.</li>
-<li>Personalisierte Werbung von Apple kannst du in den iOS-Einstellungen unter „Datenschutz &amp; Sicherheit“ &rarr; „Apple-Werbung“ ausschalten.</li>
-</ul>
+    <section id="sec-6" class="card">
+      <h2>6. Werbung mit Google AdMob</h2>
+      <p>Um die App kostenlos anbieten zu können, zeigen wir Werbung mit <strong>Google AdMob</strong> an. Anbieter ist Google Ireland Limited, Gordon House, Barrow Street, Dublin 4, Irland (Muttergesellschaft: Google LLC, USA). Es gibt zwei Formen:</p>
+      <ul>
+        <li><strong>Banner:</strong> Ein kleines Werbebanner oben im Spielbildschirm.</li>
+        <li><strong>Prämienvideo:</strong> Ein Video, das nur erscheint, wenn du es nach einem Game Over selbst auswählst, um dein Spiel fortzusetzen (Rebirth).</li>
+      </ul>
+      <p>Wir zeigen keine erzwungene Vollbildwerbung zwischen den Spielen.</p>
+    </section>
 
-<h2>10. Übermittlung in Drittländer</h2>
-<p>Google kann die Daten auch in den USA und anderen Ländern außerhalb der Europäischen Union verarbeiten. Dort kann ein anderes Datenschutzniveau gelten als in der EU. Google stützt sich dabei auf Standardvertragsklauseln der EU-Kommission und, soweit anwendbar, auf den Angemessenheitsbeschluss zum EU-US-Datenschutzrahmen (Data Privacy Framework).</p>
+    <section id="sec-7" class="card">
+      <h2>7. Welche Daten Google dabei verarbeitet</h2>
+      <p>Wenn die App Werbung lädt und anzeigt, verarbeitet Google als Anbieter des Werbedienstes Daten, die dein Gerät dabei überträgt. Dazu können gehören:</p>
+      <ul>
+        <li>Deine IP-Adresse und der daraus ableitbare ungefähre Standort,</li>
+        <li>Geräteinformationen wie Gerätetyp, Betriebssystem und -version, Spracheinstellung, Bildschirmgröße und Netzbetreiber,</li>
+        <li>Angaben zur App (Name und Version),</li>
+        <li>Informationen zur Werbung: Ob sie angezeigt, angetippt oder bis zum Ende angesehen wurde,</li>
+        <li>Die Werbe-ID deines Geräts (IDFA), wenn du dem Tracking zugestimmt hast,</li>
+        <li>Kennungen zur Betrugsprävention und Begrenzung der Anzeigenhäufigkeit.</li>
+      </ul>
+      <p>Weitere Informationen stehen in der <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Datenschutzerklärung von Google</a>.</p>
+    </section>
 
-<h2>11. Speicherdauer</h2>
-<p>Daten in der App bleiben auf deinem Gerät, bis du sie löschst oder die App entfernst. Wie lange Google die Werbedaten speichert, bestimmt Google. Einzelheiten stehen in der oben verlinkten Datenschutzerklärung von Google. Bei uns werden zu deiner Person keine Werbedaten gespeichert.</p>
+    <section id="sec-8" class="card">
+      <h2>8. Einwilligung und Rechtsgrundlage</h2>
+      <p>Beim ersten Start der App zeigt eine Einwilligungsabfrage, welche Daten für Werbung verarbeitet werden könnten, und fragt dich nach deiner Zustimmung. Zusätzlich fragt iOS, ob die App deine Aktivitäten über Apps anderer Unternehmen hinweg nachverfolgen darf (App-Tracking-Transparenz).</p>
+      <p>Rechtsgrundlage ist deine <strong>Einwilligung</strong> nach Art. 6 Abs. 1 lit. a DSGVO und § 25 Abs. 1 TDDDG. Die Einwilligung ist freiwillig. Das Spiel selbst kannst du in jedem Fall in vollem Umfang nutzen.</p>
+    </section>
 
-<h2>12. Apple und der App Store</h2>
-<p>Beim Herunterladen der App verarbeitet Apple Daten, zum Beispiel deine Apple-ID und die Zahlungsdaten für den Download. Dafür ist Apple verantwortlich, wir haben darauf keinen Einfluss und erhalten diese Daten nicht. Mehr dazu in den Datenschutzhinweisen von Apple.</p>
+    <section id="sec-9" class="card">
+      <h2>9. Einwilligung widerrufen</h2>
+      <p>Du kannst deine Einwilligung jederzeit mit Wirkung für die Zukunft widerrufen:</p>
+      <ul>
+        <li>Öffne in der App die Einstellungen und tippe auf „Datenschutzoptionen“.</li>
+        <li>Die Tracking-Erlaubnis änderst du jederzeit in den iOS-Einstellungen unter „Datenschutz &amp; Sicherheit“ &rarr; „Tracking“.</li>
+        <li>Personalisierte Werbung von Apple kannst du unter „Datenschutz &amp; Sicherheit“ &rarr; „Apple-Werbung“ ausschalten.</li>
+      </ul>
+    </section>
 
-<h2>13. Deine Rechte</h2>
-<p>Nach der DSGVO hast du folgende Rechte:</p>
-<ul>
-<li><strong>Auskunft</strong> (Art. 15): Du kannst erfahren, welche Daten zu dir verarbeitet werden.</li>
-<li><strong>Berichtigung</strong> (Art. 16): Unrichtige Daten werden korrigiert.</li>
-<li><strong>Löschung</strong> (Art. 17): Du kannst die Löschung deiner Daten verlangen, soweit keine Pflicht zur Aufbewahrung besteht.</li>
-<li><strong>Einschränkung der Verarbeitung</strong> (Art. 18).</li>
-<li><strong>Datenübertragbarkeit</strong> (Art. 20): Du kannst deine Daten in einem gängigen Format erhalten.</li>
-<li><strong>Widerspruch</strong> (Art. 21) gegen Verarbeitungen, die auf berechtigten Interessen beruhen.</li>
-<li><strong>Widerruf</strong> einer erteilten Einwilligung (Art. 7 Abs. 3), siehe Abschnitt 9.</li>
-</ul>
-<p>Da wir selbst keine Daten zu dir speichern, können wir Auskünfte nur zu den wenigen Angaben geben, die uns per E-Mail erreichen. Für Daten, die Google verarbeitet, kannst du dich auch direkt an Google wenden.</p>
+    <section id="sec-10" class="card">
+      <h2>10. Übermittlung in Drittländer</h2>
+      <p>Google kann Daten in den USA und anderen Ländern außerhalb der Europäischen Union verarbeiten. Google stützt sich dabei auf Standardvertragsklauseln der EU-Kommission und, soweit anwendbar, auf den Angemessenheitsbeschluss zum EU-US-Datenschutzrahmen (Data Privacy Framework).</p>
+    </section>
 
-<h2>14. Beschwerderecht</h2>
-<p>Du hast das Recht, dich bei einer Datenschutz-Aufsichtsbehörde zu beschweren, wenn du der Meinung bist, dass deine Daten rechtswidrig verarbeitet werden. Das kann die Behörde an deinem Wohnort, an deinem Arbeitsplatz oder am Ort des mutmaßlichen Verstoßes sein.</p>
+    <section id="sec-11" class="card">
+      <h2>11. Speicherdauer</h2>
+      <p>Daten in der App bleiben auf deinem Gerät, bis du sie löschst oder die App entfernst. Wie lange Google die Werbedaten speichert, bestimmt Google selbst.</p>
+    </section>
 
-<h2>15. Automatisierte Entscheidungen</h2>
-<p>Eine automatisierte Entscheidungsfindung einschließlich Profiling, die dir gegenüber rechtliche Wirkung entfaltet, findet durch uns nicht statt.</p>
+    <section id="sec-12" class="card">
+      <h2>12. Apple und der App Store</h2>
+      <p>Beim Herunterladen der App verarbeitet Apple Daten (z. B. Apple-ID). Dafür ist Apple verantwortlich, wir haben darauf keinen Einfluss und erhalten diese Daten nicht.</p>
+    </section>
 
-<h2>16. Kinder</h2>
-<p>Die App richtet sich nicht gezielt an Kinder. Wir erheben wissentlich keine personenbezogenen Daten von Kindern. Wenn du glaubst, dass ein Kind uns Daten übermittelt hat, schreib uns bitte, damit wir das prüfen können.</p>
+    <section id="sec-13" class="card">
+      <h2>13. Deine Rechte</h2>
+      <p>Nach der DSGVO hast du folgende Rechte: Auskunft (Art. 15), Berichtigung (Art. 16), Löschung (Art. 17), Einschränkung (Art. 18), Datenübertragbarkeit (Art. 20), Widerspruch (Art. 21) sowie den Widerruf deiner Einwilligung.</p>
+    </section>
 
-<h2>17. Änderungen dieser Erklärung</h2>
-<p>Wenn sich die App, die eingesetzten Dienste oder die rechtlichen Vorgaben ändern, passen wir diese Erklärung an. Die jeweils aktuelle Fassung steht immer auf dieser Seite, das Datum oben zeigt, wann sie zuletzt geändert wurde.</p>
-</main>
+    <section id="sec-14" class="card">
+      <h2>14. Beschwerderecht</h2>
+      <p>Du hast das Recht, dich bei einer Datenschutz-Aufsichtsbehörde zu beschweren, wenn du der Meinung bist, dass deine Daten rechtswidrig verarbeitet werden.</p>
+    </section>
+
+    <section id="sec-15" class="card">
+      <h2>15. Automatisierte Entscheidungen</h2>
+      <p>Eine automatisierte Entscheidungsfindung einschließlich Profiling, die dir gegenüber rechtliche Wirkung entfaltet, findet durch uns nicht statt.</p>
+    </section>
+
+    <section id="sec-16" class="card">
+      <h2>16. Kinder</h2>
+      <p>Die App richtet sich nicht gezielt an Kinder. Wir erheben wissentlich keine personenbezogenen Daten von Kindern.</p>
+    </section>
+
+    <section id="sec-17" class="card">
+      <h2>17. Änderungen dieser Erklärung</h2>
+      <p>Wenn sich die App, die eingesetzten Dienste oder die rechtlichen Vorgaben ändern, passen wir diese Erklärung an. Die jeweils aktuelle Fassung steht immer auf dieser Seite.</p>
+    </section>
+
+  </main>
+</div>
+
 <footer>
-<a href="mailto:levideos.studio@gmail.com">Kontakt</a> · © 2026 Levi Howe
+  <p><a href="mailto:levideos.studio@gmail.com">Kontakt</a> &bull; &copy; 2026 Levi Howe &bull; Quadra – 3D Block Puzzle</p>
 </footer>
+
 </body>
 </html>
