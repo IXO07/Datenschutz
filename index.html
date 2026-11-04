@@ -142,7 +142,7 @@ h1 {
 
 @media (max-width: 900px) {
   .sidebar {
-    display: none; /* Auf Mobilgeräten ausblenden für cleanen Look */
+    display: none;
   }
 }
 
@@ -206,6 +206,7 @@ a {
   text-decoration: none;
   font-weight: 500;
   transition: color 0.2s;
+  cursor: pointer;
 }
 
 a:hover {
@@ -234,6 +235,64 @@ footer {
   font-size: 0.9rem;
   border-top: 1px solid var(--panel-border);
   margin-top: 60px;
+}
+
+.footer-links {
+  margin-bottom: 12px;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+/* Modal Overlay & Fenster Styling */
+.modal-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  z-index: 1000;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.modal-content {
+  background: #0f172a;
+  border: 1px solid var(--panel-border);
+  border-radius: var(--radius);
+  max-width: 550px;
+  width: 100%;
+  padding: 32px;
+  position: relative;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+  animation: modalFadeIn 0.2s ease-out;
+}
+
+@keyframes modalFadeIn {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.close-btn {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  font-size: 1.5rem;
+  cursor: pointer;
+  line-height: 1;
+  transition: color 0.2s;
+}
+
+.close-btn:hover {
+  color: #fff;
 }
 </style>
 </head>
@@ -278,7 +337,7 @@ footer {
 
     <section id="sec-1" class="card">
       <h2>1. Das Wichtigste in Kürze</h2>
-      <p>Dein Datenschutz ist uns wichtig. Deshalb erklären wir hier ausführlich und in einfachen Worten, welche Daten bei der Nutzung der App <strong>Quadra – 3D Block Puzzle</strong> (im Folgenden „die App“) verarbeitet werden, wofür, auf welcher Rechtsgrundlage und welche Rechte du hast.</p>
+      <p>Dein Datenschutz ist wichtig. Deshalb erklären wir hier ausführlich und in einfachen Worten, welche Daten bei der Nutzung der App <strong>Quadra – 3D Block Puzzle</strong> (im Folgenden „die App“) verarbeitet werden, wofür, auf welcher Rechtsgrundlage und welche Rechte du hast.</p>
       <ul>
         <li>Du brauchst weder ein Konto noch eine Anmeldung.</li>
         <li>Spielstände, Rekorde, Einstellungen und Fortschritte bleiben auf deinem Gerät. Wir betreiben keine eigenen Server, auf die sie übertragen werden.</li>
@@ -289,12 +348,8 @@ footer {
 
     <section id="sec-2" class="card">
       <h2>2. Verantwortlicher</h2>
-      <p>Verantwortlich für die Datenverarbeitung im Sinne der Datenschutz-Grundverordnung (DSGVO) ist:</p>
-      <div class="contact-box">
-        <strong>Levi Howe</strong><br>
-        E-Mail: <a href="mailto:levideos.studio@gmail.com">levideos.studio@gmail.com</a>
-      </div>
-      <p style="margin-top: 12px;">Bei Fragen zum Datenschutz und für Auskunftsanfragen erreichst du uns direkt unter dieser E-Mail-Adresse.</p>
+      <p>Verantwortlich für die Datenverarbeitung im Sinne der Datenschutz-Grundverordnung (DSGVO) ist der Betreiber dieser App.</p>
+      <p>Die genauen Kontaktdaten sowie Angaben zur verantwortlichen Person können jederzeit über die Schaltflächen <a onclick="openModal('contactModal')">Kontakt</a> oder <a onclick="openModal('impressumModal')">Impressum</a> in der Fußzeile dieser Seite eingesehen werden.</p>
     </section>
 
     <section id="sec-3" class="card">
@@ -403,8 +458,63 @@ footer {
 </div>
 
 <footer>
-  <p><a href="mailto:levideos.studio@gmail.com">Kontakt</a> &bull; &copy; 2026 Levi Howe &bull; Quadra – 3D Block Puzzle</p>
+  <div class="footer-links">
+    <a onclick="openModal('contactModal')">Kontakt</a>
+    <span>&bull;</span>
+    <a onclick="openModal('impressumModal')">Impressum</a>
+  </div>
+  <p>&copy; 2026 Levi Howe &bull; Quadra – 3D Block Puzzle</p>
 </footer>
+
+<!-- Modal 1: Nur Kontakt (Name & E-Mail) -->
+<div id="contactModal" class="modal-overlay" onclick="closeModalOnBg(event, 'contactModal')">
+  <div class="modal-content">
+    <button class="close-btn" onclick="closeModal('contactModal')">&times;</button>
+    <h2 style="margin-top: 0;">Kontakt</h2>
+    <div class="contact-box">
+      <strong>Levi Howe</strong><br>
+      E-Mail: <a href="mailto:levideos.studio@gmail.com">levideos.studio@gmail.com</a>
+    </div>
+  </div>
+</div>
+
+<!-- Modal 2: Impressum (Vollständig) -->
+<div id="impressumModal" class="modal-overlay" onclick="closeModalOnBg(event, 'impressumModal')">
+  <div class="modal-content">
+    <button class="close-btn" onclick="closeModal('impressumModal')">&times;</button>
+    <h2 style="margin-top: 0;">Impressum</h2>
+    <p><strong>Angaben gemäß § 5 DDG</strong></p>
+    <div class="contact-box">
+      Levi Howe<br>
+      Beierweg 25<br>
+      53359 Rheinbach
+    </div>
+    <h3 style="font-size: 1.1rem; margin-top: 20px; color: #fff;">Kontakt</h3>
+    <div class="contact-box">
+      Telefon: +49 176 47066509<br>
+      E-Mail: <a href="mailto:levideos.studio@gmail.com">levideos.studio@gmail.com</a>
+    </div>
+    <h3 style="font-size: 1.1rem; margin-top: 20px; color: #fff;">Verbraucherstreitbeilegung</h3>
+    <p style="font-size: 0.9rem;">Wir sind nicht bereit oder verpflichtet, an Streitbeilegungsverfahren vor einer Verbraucherschlichtungsstelle teilzunehmen.</p>
+    <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 16px;">Quelle: Erstellt mit dem eRecht24-Impressum-Generator</p>
+  </div>
+</div>
+
+<script>
+function openModal(id) {
+  document.getElementById(id).style.display = 'flex';
+}
+
+function closeModal(id) {
+  document.getElementById(id).style.display = 'none';
+}
+
+function closeModalOnBg(event, id) {
+  if (event.target.id === id) {
+    closeModal(id);
+  }
+}
+</script>
 
 </body>
 </html>
